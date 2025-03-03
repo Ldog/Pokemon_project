@@ -3,9 +3,7 @@ package com.daniel.pokemon.project.pokemon_project;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import com.daniel.pokemon.project.pokemon_project.controller.PokedexController;
@@ -29,9 +27,6 @@ public class PokemonControllerTest {
 
     @Mock
     private RestTemplate restTemplate;
-
-    @Autowired
-    private TestRestTemplate testRestTemplate;
 
     @Test
     public void testGetPokemons() {
