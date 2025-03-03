@@ -22,11 +22,12 @@ public class PokedexService {
         List<Pokemon> pokemons = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
         String url = POKEAPI_BASE_URL + "?offset=" + (page * size) + "&limit=" + size;
+        // Obtener la respuesta del servicio web
         String response = restTemplate.getForObject(url, String.class);
-
+        // Convertir la respuesta a un objeto JSON
         JSONObject jsonObject = new JSONObject(response);
         JSONArray results = jsonObject.getJSONArray("results");
-
+        // Iterar sobre el arreglo de resultados ya que cada resultado es un objeto
         for (int i = 0; i < results.length(); i++) {
             JSONObject result = results.getJSONObject(i);
             String pokemonUrl = result.getString("url");
@@ -34,11 +35,13 @@ public class PokedexService {
             JSONObject pokemonObject = new JSONObject(pokemonResponse);
 
             Pokemon pokemon = new Pokemon();
+            // Obtener el nombre y el peso del pokemon
             pokemon.setWeight(pokemonObject.getInt("weight"));
             pokemon.setName(pokemonObject.getString("name"));
-
+            // Obtener los tipos del pokemon
             JSONArray typesArray = pokemonObject.getJSONArray("types");
             List<Type> types = new ArrayList<>();
+            //Iterar sobre el arreglo de tipos ya que cada tipo es un objeto
             for (int j = 0; j < typesArray.length(); j++) {
                 JSONObject typeObject = typesArray.getJSONObject(j).getJSONObject("type");
                 Type type = new Type();
@@ -47,9 +50,10 @@ public class PokedexService {
                 types.add(type);
             }
             pokemon.setTypes(types);
-
+            // Obtener las habilidades del pokemon
             JSONArray abilitiesArray = pokemonObject.getJSONArray("abilities");
             List<Ability> abilities = new ArrayList<>();
+            // Iterar sobre el arreglo de habilidades ya que cada habilidad es un objeto
             for (int j = 0; j < abilitiesArray.length(); j++) {
                 JSONObject abilityObject = abilitiesArray.getJSONObject(j).getJSONObject("ability");
                 Ability ability = new Ability();
@@ -58,7 +62,7 @@ public class PokedexService {
                 abilities.add(ability);
             }
             pokemon.setAbilities(abilities);
-
+            // Obtener la URL de la imagen del pokemon
             pokemon.setImageUrl(pokemonObject.getJSONObject("sprites").getString("front_default"));
 
             pokemons.add(pokemon);
